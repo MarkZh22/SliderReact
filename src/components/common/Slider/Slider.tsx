@@ -46,7 +46,9 @@ const Slider: React.FC<SliderProps> = ({slides}) => {
                      text={slides[currentSlideIndex].text}
             />
             <footer className={styles.footer}>
-                <Button buttonText={slides[currentSlideIndex].buttonText} nextSlide={nextSlide}/>
+                <Button nextSlide={nextSlide}>
+                    {currentSlideIndex === slides.length - 1 ? 'Done' : 'Next'}
+                </Button>
                 <Dotes slides={slides} currentSlideIndex={currentSlideIndex} />
             </footer>
         </div>
