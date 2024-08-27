@@ -4,8 +4,7 @@ import Section from '../Section/Section';
 import {SliderProps} from '../../../data';
 import styles from './Slider.module.css';
 import Button from '../../UI/Button/Button';
-import { ReactComponent as InactiveDot } from '../../UI/Icons/dote.svg';
-import { ReactComponent as ActiveDot } from '../../UI/Icons/doteActive.svg';
+import Dotes from '../../UI/Dotes/Dotes';
 
 const Slider: React.FC<SliderProps> = ({slides}) => {
 
@@ -33,26 +32,23 @@ const Slider: React.FC<SliderProps> = ({slides}) => {
             }
         }
     };
+
     useEffect(() => {
         const nextIndex: number = (currentSlideIndex + 1) % slides.length;
         const img:  HTMLImageElement = new Image();
         img.src = slides[nextIndex].imageUrl;
     }, [currentSlideIndex, slides]);
+
     return (
         <div className={styles.container} key={slides[currentSlideIndex].id} onClick={handleSlideClick}>
-
             <Header imageURL={slides[currentSlideIndex].imageUrl}/>
             <Section title={slides[currentSlideIndex].title}
                      text={slides[currentSlideIndex].text}
             />
-            <div className={styles.footer}>
+            <footer className={styles.footer}>
                 <Button buttonText={slides[currentSlideIndex].buttonText} nextSlide={nextSlide}/>
-                <div className={styles.dotes}>
-                    {slides.map((_, index: number) => (
-                        currentSlideIndex === index ? <ActiveDot key={index} /> : <InactiveDot key={index} />
-                    ))}
-                </div>
-            </div>
+                <Dotes slides={slides} currentSlideIndex={currentSlideIndex} />
+            </footer>
         </div>
     );
 }

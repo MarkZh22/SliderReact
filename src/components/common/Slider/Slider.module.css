@@ -23,9 +23,3 @@
     flex-direction: column;
     gap: 25px;
 }
-.dotes{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 6px;
-}

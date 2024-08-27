@@ -1,0 +1,6 @@
+.dotes{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 6px;
+}
