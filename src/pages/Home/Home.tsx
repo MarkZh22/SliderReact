@@ -2,20 +2,53 @@ import React, {useState, useEffect} from 'react';
 import Header from '../../components/Header/Header';
 import Section from '../../components/Section/Section';
 import Footer from '../../components/Footer/Footer';
-import {SliderProps} from '../../data/data';
 import styles from './Home.module.css';
 
+export interface DataProps {
+    id: number;
+    imageUrl: string;
+    title: string;
+    text: string;
+}
 
-const Home: React.FC<SliderProps> = ({slides}) => {
+const Home: React.FC = () => {
 
+    const [data, setData] = useState<DataProps[]>([]);
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
+    useEffect(() => {
+        async function getDataSlides() {
+            try {
+                const response = await fetch('http://localhost:3001/slides', {
+                    method: 'GET',
+                });
+                const result = await response.json();
+                setData(result);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getDataSlides();
+    }, []);
+
+    useEffect(() => {
+        if (data.length > 0) {
+            const nextIndex: number = (currentSlideIndex + 1) % data.length;
+            const img: HTMLImageElement = new Image();
+            img.src = data[nextIndex].imageUrl;
+        }
+    }, [currentSlideIndex]);
+
     const nextSlide = () => {
-        setCurrentSlideIndex((currentSlideIndex: number) => (currentSlideIndex >= slides.length - 1 ? currentSlideIndex : currentSlideIndex + 1));
+        setCurrentSlideIndex((currentSlideIndex: number) =>
+            currentSlideIndex >= data.length - 1 ? currentSlideIndex : currentSlideIndex + 1
+        );
     };
 
     const prevSlide = () => {
-        setCurrentSlideIndex((currentSlideIndex: number) => (currentSlideIndex <= 0 ? currentSlideIndex : currentSlideIndex - 1));
+        setCurrentSlideIndex((currentSlideIndex: number) =>
+            currentSlideIndex <= 0 ? currentSlideIndex : currentSlideIndex - 1
+        );
     };
 
     const handleSlideClick = (event: any) => {
@@ -33,19 +66,20 @@ const Home: React.FC<SliderProps> = ({slides}) => {
         }
     };
 
-    useEffect(() => {
-        const nextIndex: number = (currentSlideIndex + 1) % slides.length;
-        const img: HTMLImageElement = new Image();
-        img.src = slides[nextIndex].imageUrl;
-    }, [currentSlideIndex, slides]);
-
     return (
-        <div className={styles.container} key={slides[currentSlideIndex].id} onClick={handleSlideClick}>
-            <Header imageURL={slides[currentSlideIndex].imageUrl}/>
-            <Section title={slides[currentSlideIndex].title} text={slides[currentSlideIndex].text} />
-            <Footer nextSlide={nextSlide} slides={slides} currentSlideIndex={currentSlideIndex} />
-        </div>
-    );
-}
+        <>
+            {data.length === 0 ? (
+                <div className={styles.container}>Loading...</div>
+            ) : (
+                <div className={styles.container} onClick={handleSlideClick}>
+                    <Header imageURL={data[currentSlideIndex].imageUrl} />
+                    <Section title={data[currentSlideIndex].title} text={data[currentSlideIndex].text} />
+                    <Footer nextSlide={nextSlide} slides={data} currentSlideIndex={currentSlideIndex} />
+                </div>
+            )}
+        </>
+    )
+};
 
 export default Home;
+

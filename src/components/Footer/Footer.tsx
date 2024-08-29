@@ -2,12 +2,12 @@ import React from 'react';
 import styles from './Footer.module.css'
 import Button from '../UI/Button/Button';
 import Dotes from '../UI/Dotes/Dotes';
-import {Slide} from '../../data/data';
+import {DataProps} from '../../pages/Home/Home';
 
 interface FooterProps {
     nextSlide: () => void,
     currentSlideIndex: number,
-    slides: Slide[]
+    slides: DataProps[]
 }
 
 const Footer: React.FC<FooterProps> = ({nextSlide, slides, currentSlideIndex }) => {

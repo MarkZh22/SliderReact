@@ -2,10 +2,10 @@ import React from 'react';
 import styles from './/Dotes.module.css';
 import { ReactComponent as InactiveDot } from './/dote.svg';
 import { ReactComponent as ActiveDot } from './/doteActive.svg';
-import {Slide} from '../../../data/data';
+import {DataProps} from '../../../pages/Home/Home';
 
 interface DotesProps {
-    slides: Slide[],
+    slides: DataProps[],
     currentSlideIndex: number,
 }
 
