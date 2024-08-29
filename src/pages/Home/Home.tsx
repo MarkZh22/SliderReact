@@ -37,7 +37,7 @@ const Home: React.FC = () => {
             const img: HTMLImageElement = new Image();
             img.src = data[nextIndex].imageUrl;
         }
-    }, [currentSlideIndex]);
+    }, [currentSlideIndex, data]);
 
     const nextSlide = () => {
         setCurrentSlideIndex((currentSlideIndex: number) =>
