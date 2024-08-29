@@ -7,14 +7,14 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({imageURL}) => {
     return (
-        <header className={styles.container} >
+        <div className={styles.container} >
             <img
                 className={styles.imgSlider}
                 src={imageURL}
-                alt="Header-img"
-                loading="lazy"
+                alt='Header-img'
+                loading='lazy'
             />
-        </header>
+        </div>
     )
 };
 
